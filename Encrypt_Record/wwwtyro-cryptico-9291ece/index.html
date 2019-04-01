@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <script src="cryptico.js"></script>
+    </head>
+    <body>
+        <!-- <input type="file" id="record" name="record">
+         -->
+         <input type='file' accept='text/plain' onchange='openFile(event)'><br>
+         <br>
+        <br>
+        <button onclick="encrypt();">Encrypt Data</button>
+        <br>
+        <div style="background-color: antiquewhite;width:500px;overflow-y: scroll;" id="encrypted_data"></div>
+        <br>
+        <button onclick="decrypt();">Decrypt Data</button>
+        <br>
+        <div style="background-color: antiquewhite;width:500px;overflow-y: scroll;" id="decrypted_data"></div>
+
+        <script>
+            
+            var Bits,MattsRSAkey,MattsPublicKeyString,PlainText,EncryptionResult,DecryptionResult,sample_data;
+
+            function encrypt(){
+
+                var PassPhrase = "vimal974ever";
+                
+                Bits = 1024; 
+
+                MattsRSAkey = cryptico.generateRSAKey(PassPhrase, Bits);
+
+                MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey); 
+
+                PlainText = sample_data;
+
+                EncryptionResult = cryptico.encrypt(PlainText, MattsPublicKeyString);
+
+                document.getElementById("encrypted_data").innerHTML = EncryptionResult.cipher;
+            }
+
+            function decrypt(){
+
+                DecryptionResult = cryptico.decrypt(EncryptionResult.cipher, MattsRSAkey);
+
+                document.getElementById("decrypted_data").innerHTML = DecryptionResult.plaintext;
+
+            }
+
+            var openFile = function(event) {
+        var input = event.target;
+
+        var reader = new FileReader();
+        reader.onload = function(){
+          var text = reader.result;
+          sample_data = text;
+          console.log(reader.result.substring(0, 200));
+        };
+        reader.readAsText(input.files[0]);
+      };            
+
+        </script>
+    </body>
+</html>
